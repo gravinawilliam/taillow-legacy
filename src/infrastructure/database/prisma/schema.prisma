@@ -17,12 +17,18 @@ model Requester {
   EmailNotSent  EmailNotSent[]
   EmailTemplate EmailTemplate[]
   EmailDomain   EmailDomain[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  deletedAt     DateTime?
 }
 
 model EmailRegisteredInProvider {
-  id                String @id @map("_id")
+  id                String    @id @map("_id")
   email             String
   providerAwsStatus String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  deletedAt         DateTime?
 }
 
 model EmailDomain {
@@ -30,6 +36,9 @@ model EmailDomain {
   domain      String
   requester   Requester @relation(fields: [requesterId], references: [id])
   requesterId String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
 }
 
 model EmailContact {
@@ -37,6 +46,9 @@ model EmailContact {
   name          String
   email         String
   EmailTemplate EmailTemplate[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  deletedAt     DateTime?
 }
 
 model EmailTemplate {
@@ -50,18 +62,26 @@ model EmailTemplate {
   fromEmailContactId String
   requester          Requester    @relation(fields: [requesterId], references: [id])
   requesterId        String
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  deletedAt          DateTime?
 }
 
 model SentEmail {
-  id          String    @id @map("_id")
-  toEmail     String
-  toName      String
-  fromEmail   String
-  fromName    String
-  subject     String
-  html        String
-  requester   Requester @relation(fields: [requesterId], references: [id])
-  requesterId String
+  id                String    @id @map("_id")
+  toEmail           String
+  toName            String
+  fromEmail         String
+  fromName          String
+  subject           String
+  html              String
+  requester         Requester @relation(fields: [requesterId], references: [id])
+  requesterId       String
+  sentEmailResult   String
+  providerSentEmail String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  deletedAt         DateTime?
 }
 
 model EmailNotSent {
@@ -78,4 +98,7 @@ model EmailNotSent {
   requesterApiKey   String
   templateId        String?
   templateVariables String?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  deletedAt         DateTime?
 }
