@@ -20,7 +20,9 @@ export class SentEmailsPrismaRepository implements ISaveSentEmailsRepository {
           subject: parameters.sentEmail.subject,
           toEmail: parameters.sentEmail.to.email.value,
           toName: parameters.sentEmail.to.name,
-          id: parameters.id
+          id: parameters.id,
+          providerSentEmail: parameters.providerSentEmail,
+          sentEmailResult: JSON.stringify(parameters.sentEmailResult)
         }
       });
 
