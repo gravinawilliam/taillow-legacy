@@ -54,8 +54,10 @@ export class SendEmailUseCase implements ISendEmailUseCase {
       return failure(resultGenerateUuid.value);
     }
 
-    await this.sentEmailsRepository.save({
+    const resultSaveSentEmail = await this.sentEmailsRepository.save({
       id: resultGenerateUuid.value.uuid,
+      sentEmailResult: sentEmail.value.result,
+      providerSentEmail: sentEmail.value.provider,
       requester: {
         id: parameters.requester.id
       },
@@ -72,6 +74,10 @@ export class SendEmailUseCase implements ISendEmailUseCase {
         html: resultAddedVariables.value.html
       }
     });
+
+    if (resultSaveSentEmail.isFailure()) {
+      return failure(resultSaveSentEmail.value);
+    }
 
     return success(undefined);
   }
