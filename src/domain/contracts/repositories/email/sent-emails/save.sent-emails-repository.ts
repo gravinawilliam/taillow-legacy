@@ -1,5 +1,6 @@
 import { RepositoryError } from '@domain/entities/errors/shared/repository.error';
 import { EmailContact } from '@domain/entities/models/email/email-contact.model';
+import { ProvidersSendEmail } from '@domain/entities/models/email/email-registered-in-providers.model';
 
 import { Either } from '@shared/utils/either.util';
 
@@ -15,6 +16,8 @@ export namespace SaveSentEmailsRepositoryDTO {
       subject: string;
       html: string;
     };
+    sentEmailResult: unknown;
+    providerSentEmail: ProvidersSendEmail;
   };
 
   type ResultError = RepositoryError;
