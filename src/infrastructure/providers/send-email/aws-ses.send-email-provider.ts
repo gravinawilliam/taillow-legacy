@@ -49,11 +49,13 @@ export class AwsSesSendEmailProvider implements ISendEmailProvider {
         html: parameters.html
       });
 
-      console.log(resultSendEmail);
-
-      return success(undefined);
+      return success({
+        provider: 'aws-ses',
+        result: {
+          messageId: resultSendEmail.response
+        }
+      });
     } catch (error: any) {
-      console.log(error);
       return failure(
         new ProviderError({
           method: 'send',
