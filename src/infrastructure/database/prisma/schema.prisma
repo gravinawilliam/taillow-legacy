@@ -6,6 +6,76 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+model Requester {
+  id            String          @id @map("_id")
+  apiKey        String
+  SentEmail     SentEmail[]
+  EmailNotSent  EmailNotSent[]
+  EmailTemplate EmailTemplate[]
+  EmailDomain   EmailDomain[]
+}
+
+model EmailRegisteredInProvider {
+  id                String @id @map("_id")
+  email             String
+  providerAwsStatus String
+}
+
+model EmailDomain {
+  id          String    @id @map("_id")
+  domain      String
+  requester   Requester @relation(fields: [requesterId], references: [id])
+  requesterId String
+}
+
+model EmailContact {
+  id            String          @id @map("_id")
+  name          String
+  email         String
+  EmailTemplate EmailTemplate[]
+}
+
+model EmailTemplate {
+  id                 String       @id @map("_id")
+  html               String
+  name               String
+  description        String
+  subject            String
+  status             String
+  fromEmailContact   EmailContact @relation(fields: [fromEmailContactId], references: [id])
+  fromEmailContactId String
+  requester          Requester    @relation(fields: [requesterId], references: [id])
+  requesterId        String
+}
+
+model SentEmail {
+  id          String    @id @map("_id")
+  toEmail     String
+  toName      String
+  fromEmail   String
+  fromName    String
+  subject     String
+  html        String
+  requester   Requester @relation(fields: [requesterId], references: [id])
+  requesterId String
+}
+
+model EmailNotSent {
+  id                String     @id @map("_id")
+  toEmail           String
+  toName            String
+  fromEmail         String?
+  fromName          String?
+  subject           String?
+  html              String?
+  errorNotSentEmail String
+  requester         Requester? @relation(fields: [requesterId], references: [id])
+  requesterId       String?
+  requesterApiKey   String
+  templateId        String?
+  templateVariables String?
 }
