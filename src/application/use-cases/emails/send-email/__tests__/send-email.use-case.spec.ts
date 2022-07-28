@@ -29,7 +29,12 @@ describe('Send email USE CASE', () => {
 
   beforeAll(() => {
     emailProvider = mock();
-    emailProvider.send.mockResolvedValue(success(undefined));
+    emailProvider.send.mockResolvedValue(
+      success({
+        provider: 'aws-ses',
+        result: 'any_result'
+      })
+    );
 
     sentEmailsRepository = mock();
     sentEmailsRepository.save.mockResolvedValue(success(undefined));
@@ -130,6 +135,8 @@ describe('Send email USE CASE', () => {
           name: 'any_name_to'
         }
       },
+      providerSentEmail: 'aws-ses',
+      sentEmailResult: 'any_result',
       id: uuid
     } as SaveSentEmailsRepositoryDTO.Parameters);
     expect(sentEmailsRepository.save).toHaveBeenCalledTimes(1);
