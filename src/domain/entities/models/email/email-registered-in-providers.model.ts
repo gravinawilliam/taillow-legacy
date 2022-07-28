@@ -6,6 +6,8 @@ export type EmailSendingProvider = {
   };
 };
 
+export type ProvidersSendEmail = 'aws-ses';
+
 export type EmailRegisteredInProvider = {
   email: Email;
   provider: EmailSendingProvider;
