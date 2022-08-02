@@ -8,8 +8,6 @@ jobs:
     working_directory: ~/backend_api
     executor: node/default
     steps:
-      - checkout
-      - node/install-npm
       - node/install-packages:
           app-dir: ~/backend_api
           cache-path: node_modules
