@@ -6,6 +6,99 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+model Requester {
+  id            String          @id @map("_id")
+  apiKey        String
+  SentEmail     SentEmail[]
+  EmailNotSent  EmailNotSent[]
+  EmailTemplate EmailTemplate[]
+  EmailDomain   EmailDomain[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  deletedAt     DateTime?
+}
+
+model EmailRegisteredInProvider {
+  id                String    @id @map("_id")
+  email             String
+  providerAwsStatus String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  deletedAt         DateTime?
+}
+
+model EmailDomain {
+  id          String    @id @map("_id")
+  domain      String
+  requester   Requester @relation(fields: [requesterId], references: [id])
+  requesterId String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+}
+
+model EmailContact {
+  id            String          @id @map("_id")
+  name          String
+  email         String
+  EmailTemplate EmailTemplate[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  deletedAt     DateTime?
+}
+
+model EmailTemplate {
+  id                 String       @id @map("_id")
+  html               String
+  name               String
+  description        String
+  subject            String
+  status             String
+  fromEmailContact   EmailContact @relation(fields: [fromEmailContactId], references: [id])
+  fromEmailContactId String
+  requester          Requester    @relation(fields: [requesterId], references: [id])
+  requesterId        String
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  deletedAt          DateTime?
+}
+
+model SentEmail {
+  id                String    @id @map("_id")
+  toEmail           String
+  toName            String
+  fromEmail         String
+  fromName          String
+  subject           String
+  html              String
+  requester         Requester @relation(fields: [requesterId], references: [id])
+  requesterId       String
+  sentEmailResult   String
+  providerSentEmail String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  deletedAt         DateTime?
+}
+
+model EmailNotSent {
+  id                String     @id @map("_id")
+  toEmail           String
+  toName            String
+  fromEmail         String?
+  fromName          String?
+  subject           String?
+  html              String?
+  errorNotSentEmail String
+  requester         Requester? @relation(fields: [requesterId], references: [id])
+  requesterId       String?
+  requesterApiKey   String
+  templateId        String?
+  templateVariables String?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  deletedAt         DateTime?
 }

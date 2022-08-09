@@ -74,6 +74,38 @@ export const APP_INFO = {
   })
 };
 
+export const AWS_CONFIG = {
+  SES: {
+    ACCESS_KEY_ID: getEnvironmentString({
+      key: 'AWS_SES_ACCESS_KEY_ID',
+      defaultValue: ''
+    }),
+    SECRET_ACCESS_KEY: getEnvironmentString({
+      key: 'AWS_SES_SECRET_ACCESS_KEY',
+      defaultValue: ''
+    }),
+    REGION: getEnvironmentString({
+      key: 'AWS_SES_REGION',
+      defaultValue: 'us-east-1'
+    })
+  }
+};
+
+export const KAFKA_CONFIG = {
+  BROKER: getEnvironmentString({
+    defaultValue: 'localhost:29092',
+    key: 'KAFKA_BROKER'
+  }),
+  CLIENT_ID: getEnvironmentString({
+    defaultValue: 'taillow-consumer',
+    key: 'KAFKA_CLIENT_ID'
+  }),
+  TOPIC_REQUEST_TO_SEND_EMAIL: getEnvironmentString({
+    defaultValue: 'request-to-send-email',
+    key: 'KAFKA_TOPIC_REQUEST_TO_SEND_EMAIL'
+  })
+};
+
 export const APP_CONFIG = {
   PORT: getEnvironmentNumber({
     key: 'PORT',

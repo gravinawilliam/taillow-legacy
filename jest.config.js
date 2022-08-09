@@ -50,6 +50,7 @@ module.exports = {
   coveragePathIgnorePatterns: [
     '<rootDir>/node_modules',
     '<rootDir>/src/types',
+    '<rootDir>/src/infrastructure',
     '<rootDir>/src/index.ts',
     '<rootDir>/src/healthcheck.ts',
     '<rootDir>/src/main'

@@ -7,6 +7,7 @@ import { morganMiddleware } from '@main/middlewares/morgan.middleware';
 import { notFoundRouteMiddleware } from '@main/middlewares/not-found-route.middleware';
 import { showBanner } from '@main/utils/banner.util';
 
+import { sendEmailQueue } from './queues/send-email.queue';
 import routes from './routes';
 
 export class ExpressFramework {
@@ -19,6 +20,7 @@ export class ExpressFramework {
   public async execute(): Promise<Application> {
     this.middlewaresBeforeRoutes();
 
+    sendEmailQueue();
     this.app.use(routes);
 
     this.middlewaresAfterRoutes();

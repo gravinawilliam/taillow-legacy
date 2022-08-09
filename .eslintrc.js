@@ -120,14 +120,6 @@ module.exports = {
             }
           },
           {
-            selector: 'parameter',
-            format: ['snake_case'],
-            custom: {
-              regex: '^parameters$',
-              match: true
-            }
-          },
-          {
             selector: 'variable',
             format: ['camelCase', 'UPPER_CASE']
           }
